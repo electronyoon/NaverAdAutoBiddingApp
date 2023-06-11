@@ -3,42 +3,29 @@ if (!isAdEligible) {
     console.log('Abort: Campaign is not eligible.');
     process.exit();
 }
-console.log(`Bidding starting from::::: ${new Date().toISOString().replace(/T/, '-').replace(/\..+/, '')}`);
-
-// function getNewBidByRounding(keywordRank, oldbid) {
-//     if (keywordRank > 2)
-//         return Math.floor(oldbid / 100) * 100 + 100;
-//     if (keywordRank < 2)
-//         return Math.max(Math.floor(oldbid / 100) * 100 - 100, 70);
-//     return oldbid;
-// }
-function getNewBid(keywordRank, oldbid) {
-    let betting;
-    if (oldbid > 1000) {
-        betting = 100;
-    } else if (oldbid > 400) {
-        betting = 50;
-    } else {
-        betting = 20;
-    }
-
-    if (keywordRank > 2)
-        return oldbid + betting;
-    if (keywordRank < 2)
-        return Math.max(oldbid - betting, 70);
-    return oldbid;
-}
+console.log(`Bidding starting from::::: ${new Date().toISOString()}`);
 
 
 import getCurrentKeywords from './APIs/getCurrentKeywords.js';
 const keywords = await getCurrentKeywords();
+const approvedKeywords = keywords.filter(obj => obj.inspectStatus === 'APPROVED')
+import getNewBid from './util/getNewBid.js';
+import isKeywordPopular from './APIs/isKeywordPopular.js';
 import getMyRank from './APIs/getMyRank.js';
+import getMyRankWithProxy from './APIs/getMyRankWithProxy.js';
 import putBid from './APIs/putBid.js';
-for (const keyword of keywords.filter(obj => obj.inspectStatus === 'APPROVED')) {
 
-    const keywordRank = await getMyRank(keyword.keyword);
+for (const keyword of approvedKeywords) {
+    let keywordRank;
     const oldbid = keyword.bidAmt;
     const newbid = getNewBid(keywordRank, oldbid);
+    
+    const isPop = await isKeywordPopular(keyword.keyword);
+    if (isPop) {
+        keywordRank = await getMyRankWithProxy(keyword.keyword);
+    } else {
+        keywordRank = await getMyRank(keyword.keyword);
+    }
 
     // emailing
     if (keywordRank < 0) {
@@ -53,7 +40,7 @@ for (const keyword of keywords.filter(obj => obj.inspectStatus === 'APPROVED')) 
     // logging
     if (oldbid === newbid) {
         console.log(`keyword: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} === ${oldbid}`);
-        continue
+        continue;
     }
     if (oldbid < newbid)
         console.log(`keyword: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, raising↗↗↗`);
@@ -63,5 +50,4 @@ for (const keyword of keywords.filter(obj => obj.inspectStatus === 'APPROVED')) 
     // bidding
     keyword.bidAmt = newbid;
     await putBid([keyword]);
-
 }
