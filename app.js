@@ -17,10 +17,7 @@ import putBid from './APIs/putBid.js';
 
 for (const keyword of approvedKeywords) {
     let keywordRank;
-    const oldbid = keyword.bidAmt;
-    const newbid = getNewBid(keywordRank, oldbid);
     let isProxied = '';
-    
     const isPop = await isKeywordPopular(keyword.keyword);
     if (isPop) {
         isProxied = '(proxy)';
@@ -28,6 +25,9 @@ for (const keyword of approvedKeywords) {
     } else {
         keywordRank = await getMyRank(keyword.keyword);
     }
+
+    const oldbid = keyword.bidAmt;
+    const newbid = getNewBid(keywordRank, oldbid);
 
     // emailing
     if (keywordRank < 0) {
