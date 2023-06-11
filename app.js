@@ -3,7 +3,7 @@ if (!isAdEligible) {
     console.log('Abort: Campaign is not eligible.');
     process.exit();
 }
-console.log(`Bidding starting from:: ${new Date().toISOString().replace(/T/, '-').replace(/\..+/, '')}`);
+console.log(`Bidding starting from::::: ${new Date().toISOString().replace(/T/, '-').replace(/\..+/, '')}`);
 
 // function getNewBidByRounding(keywordRank, oldbid) {
 //     if (keywordRank > 2)
