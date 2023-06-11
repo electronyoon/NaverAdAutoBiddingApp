@@ -21,7 +21,7 @@ const getMyRank = async (queryKeyword) => {
     const AD_TARGET_URL = process.env.AD_TARGET_URL;
     try {
         // console.log(`reaching for pc proxy...url: ${proxyUrl}${pcUrl}${encodeURIComponent(queryKeyword)}`);
-        const pcResponse = await axios.get(`${proxyUrl}${pcUrl}${encodeURIComponent(queryKeyword)}`);
+        const pcResponse = await axios.get(`${proxyUrl}${pcUrl}${encodeURIComponent(queryKeyword)}`, { timeout: 10000 });
         let $ = cheerio.load(pcResponse.data.result);
         const pcElements = $('.url');
         const pcRanks = pcElements.map((_, element) => {
@@ -35,7 +35,7 @@ const getMyRank = async (queryKeyword) => {
         // }
 
         // console.log(`reaching for mobile proxy...url: ${proxyUrl}${pcUrl}${encodeURIComponent(queryKeyword)}`);
-        const mobileResponse = await axios.get(`${proxyUrl}${mobileUrl}${encodeURIComponent(queryKeyword)}`);
+        const mobileResponse = await axios.get(`${proxyUrl}${mobileUrl}${encodeURIComponent(queryKeyword)}`, { timeout: 10000 });
         $ = cheerio.load(mobileResponse.data.result);
         const mobileElements = $('.url_link');
         const mobileRanks = mobileElements.map((_, element) => {
