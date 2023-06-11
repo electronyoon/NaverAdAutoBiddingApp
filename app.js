@@ -3,7 +3,7 @@ if (!isAdEligible) {
     console.log('Abort: Campaign is not eligible.');
     process.exit();
 }
-console.log(`Bidding starting from::::: ${new Date().toISOString()}`);
+console.log(`Bidding starting from::::: ${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')}`);
 
 
 import getCurrentKeywords from './APIs/getCurrentKeywords.js';
@@ -19,9 +19,11 @@ for (const keyword of approvedKeywords) {
     let keywordRank;
     const oldbid = keyword.bidAmt;
     const newbid = getNewBid(keywordRank, oldbid);
+    let isProxied = '';
     
     const isPop = await isKeywordPopular(keyword.keyword);
     if (isPop) {
+        isProxied = '(proxy)';
         keywordRank = await getMyRankWithProxy(keyword.keyword);
     } else {
         keywordRank = await getMyRank(keyword.keyword);
@@ -39,13 +41,13 @@ for (const keyword of approvedKeywords) {
 
     // logging
     if (oldbid === newbid) {
-        console.log(`keyword: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} === ${oldbid}`);
+        console.log(`keyword${isProxied}: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} === ${oldbid}`);
         continue;
     }
     if (oldbid < newbid)
-        console.log(`keyword: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, raising↗↗↗`);
+        console.log(`keyword${isProxied}: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, raising↗↗↗`);
     if (oldbid > newbid)
-        console.log(`keyword: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, lowering↘↘↘`);
+        console.log(`keyword${isProxied}: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, lowering↘↘↘`);
     
     // bidding
     keyword.bidAmt = newbid;
