@@ -11,21 +11,13 @@ const keywords = await getCurrentKeywords();
 const approvedKeywords = keywords.filter(obj => obj.inspectStatus === 'APPROVED')
 import getNewBid from './util/getNewBid.js';
 import isKeywordPopular from './APIs/isKeywordPopular.js';
-import getMyRank from './APIs/getMyRank.js';
+// import getMyRank from './APIs/getMyRank.js';
 // import getMyRankWithProxy from './APIs/getMyRankWithProxy.js';
+import getMyRankWithNaver from './APIs/getMyRankWithNaver.js';
 import putBid from './APIs/putBid.js';
 
 for (const keyword of approvedKeywords) {
-    let keywordRank;
-    let isProxied = '';
-    // const isPop = await isKeywordPopular(keyword.keyword);
-    // if (isPop) {
-    //     isProxied = '(proxy)';
-    //     keywordRank = await getMyRankWithProxy(keyword.keyword);
-    // } else {
-    //     keywordRank = await getMyRank(keyword.keyword);
-    // }
-    keywordRank = await getMyRank(keyword.keyword);
+    const keywordRank = await getMyRankWithNaver(keyword.keyword);
 
     const oldbid = keyword.bidAmt;
     const newbid = getNewBid(keywordRank, oldbid);
@@ -42,13 +34,13 @@ for (const keyword of approvedKeywords) {
 
     // logging
     if (oldbid === newbid) {
-        console.log(`keyword${isProxied}: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} === ${oldbid}`);
+        console.log(`${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} === ${oldbid}`);
         continue;
     }
     if (oldbid < newbid)
-        console.log(`keyword${isProxied}: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, raising↗↗↗`);
+        console.log(`${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, raising↗↗↗`);
     if (oldbid > newbid)
-        console.log(`keyword${isProxied}: ${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, lowering↘↘↘`);
+        console.log(`${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --> ${newbid}, lowering↘↘↘`);
     
     // bidding
     keyword.bidAmt = newbid;
