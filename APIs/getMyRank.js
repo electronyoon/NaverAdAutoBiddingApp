@@ -25,8 +25,6 @@ const getMyRank = async (queryKeyword) => {
             return element.children[0].data;
         }).get();
         const mobileRank = mobileRanks.indexOf(AD_TARGET_URL);
-        if (mobileRank === 0)
-            console.log(JSON.stringify(mobileResponse.data,null,2));
 
         // return Math.max(pcRank, mobileRank);
         return mobileRank;

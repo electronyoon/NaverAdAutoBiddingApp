@@ -21,7 +21,6 @@ for (const keyword of approvedKeywords) {
     if (keywordRank === 0)
         keywordRank = await getMyRank(keyword.keyword);
 
-
     const oldbid = keyword.bidAmt;
     const newbid = getNewBid(keywordRank, oldbid);
 
