@@ -10,7 +10,7 @@ import getCurrentKeywords from './APIs/getCurrentKeywords.js';
 const keywords = await getCurrentKeywords();
 const approvedKeywords = keywords.filter(obj => obj.inspectStatus === 'APPROVED')
 import getNewBid from './util/getNewBid.js';
-import isKeywordPopular from './APIs/isKeywordPopular.js';
+// import isKeywordPopular from './APIs/isKeywordPopular.js';
 // import getMyRank from './APIs/getMyRank.js';
 // import getMyRankWithProxy from './APIs/getMyRankWithProxy.js';
 import getMyRankWithNaver from './APIs/getMyRankWithNaver.js';
