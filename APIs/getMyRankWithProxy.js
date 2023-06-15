@@ -3,14 +3,6 @@ import * as cheerio from 'cheerio';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// for test
-// import dotenv from 'dotenv';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-// dotenv.config({
-//     path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.env'),
-// });
-
 const RAYOBYTE_API_KEY = process.env.RAYOBYTE_API_KEY;
 const AD_TARGET_URL = process.env.AD_TARGET_URL;
 const proxyUrl = `https://api.scrapingrobot.com/?token=${RAYOBYTE_API_KEY}&url=`;
