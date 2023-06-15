@@ -23,17 +23,18 @@ const getMyRankWithNaver = async (keyword) => {
     let trial = 3;
     while (trial > 1) {
         try {
-            const pcUrl = `https://manage.searchad.naver.com/api/ncc/keywords/preview?keyword=${encodeURIComponent(keyword)}&regionalCode=11185106&channelAlias=naver.search.pc.pl`;
-            await new Promise(resolve => setTimeout(resolve, 100));
-            const pcResponse = await axios.get(pcUrl, config);
-            const pcRank = JSON.parse(pcResponse.data).findIndex(obj => obj.headline === process.env.AD_TARGET_TITLE) + 1;
+            // const pcUrl = `https://manage.searchad.naver.com/api/ncc/keywords/preview?keyword=${encodeURIComponent(keyword)}&regionalCode=11185106&channelAlias=naver.search.pc.pl`;
+            // await new Promise(resolve => setTimeout(resolve, 100));
+            // const pcResponse = await axios.get(pcUrl, config);
+            // const pcRank = JSON.parse(pcResponse.data).findIndex(obj => obj.headline === process.env.AD_TARGET_TITLE) + 1;
             
             const mobileUrl = `https://manage.searchad.naver.com/api/ncc/keywords/preview?keyword=${encodeURIComponent(keyword)}&regionalCode=11185106&channelAlias=mnaver.tab.m.all`;
             await new Promise(resolve => setTimeout(resolve, 100));
             const mobileResponse = await axios.get(mobileUrl, config);
             const mobileRank = JSON.parse(mobileResponse.data).findIndex(obj => obj.headline === process.env.AD_TARGET_TITLE) + 1;
     
-            return Math.max(pcRank, mobileRank);
+            // return Math.max(pcRank, mobileRank);
+            return mobileRank;
         } catch (error) {
             console.error(`Error: 1초 뒤 한번 더 시도합니다(${trial-1}/3) ${error.response.data}`);
             await new Promise(resolve => setTimeout(resolve, 1000));

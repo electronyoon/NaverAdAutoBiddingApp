@@ -23,7 +23,7 @@ for (const keyword of approvedKeywords) {
     const newbid = getNewBid(keywordRank, oldbid);
 
     // emailing
-    if (keywordRank < 0) {
+    if (keywordRank < 1) {
         console.warn(`Administrator should check. Keyword is not found:: keyword-->${keyword.keyword}`);
         continue;
     }
