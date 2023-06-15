@@ -10,9 +10,10 @@ const pcUrl = 'https://ad.search.naver.com/search.naver?where=ad&query=';
 const mobileUrl = 'https://m.ad.search.naver.com/search.naver?sm=&where=m_expd&query=';
 
 const getMyRankWithProxy = async (queryKeyword) => {
+    let $
     try {
         const pcResponse = await axios.get(`${proxyUrl}${pcUrl}${encodeURIComponent(queryKeyword)}`, { timeout: 10000 });
-        let $ = cheerio.load(pcResponse.data.result);
+        $ = cheerio.load(pcResponse.data.result);
         const pcElements = $('.url');
         const pcRanks = pcElements.map((_, element) => {
             return element.children[0].data;

@@ -17,8 +17,8 @@ import getMyRankWithNaver from './APIs/getMyRankWithNaver.js';
 import putBid from './APIs/putBid.js';
 
 for (const keyword of approvedKeywords) {
-    let keywordRank = await getMyRankWithNaver(keyword.keyword);
-    if (keywordRank === -1)
+    let keywordRank = await getMyRankWithNaver(keyword.keyword);    
+    if (keywordRank === 0)
         keywordRank = await getMyRank(keyword.keyword);
 
 

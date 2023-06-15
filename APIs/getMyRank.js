@@ -8,9 +8,10 @@ const AD_TARGET_URL = process.env.AD_TARGET_URL;
 const mobileUrl = 'https://m.ad.search.naver.com/search.naver?sm=&where=m_expd&query=';
 
 const getMyRank = async (queryKeyword) => {
+    let $;
     try {
         // const pcResponse = await axios.get(`${pcUrl}${encodeURIComponent(queryKeyword)}`, { timeout: 10000 });
-        // let $ = cheerio.load(pcResponse.data);
+        // $ = cheerio.load(pcResponse.data);
         // const pcElements = $('.url');
         // const pcRanks = pcElements.map((_, element) => {
         //     return element.children[0].data;
@@ -24,6 +25,8 @@ const getMyRank = async (queryKeyword) => {
             return element.children[0].data;
         }).get();
         const mobileRank = mobileRanks.indexOf(AD_TARGET_URL);
+        if (mobileRank === 0)
+            console.log(JSON.stringify(mobileResponse.data,null,2));
 
         // return Math.max(pcRank, mobileRank);
         return mobileRank;

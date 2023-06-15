@@ -32,6 +32,8 @@ const getMyRankWithNaver = async (keyword) => {
             await new Promise(resolve => setTimeout(resolve, 100));
             const mobileResponse = await axios.get(mobileUrl, config);
             const mobileRank = JSON.parse(mobileResponse.data).findIndex(obj => obj.headline === process.env.AD_TARGET_TITLE) + 1;
+            if (mobileRank === 0)
+                console.log(JSON.stringify(mobileResponse.data,null,2));
     
             // return Math.max(pcRank, mobileRank);
             return mobileRank;
