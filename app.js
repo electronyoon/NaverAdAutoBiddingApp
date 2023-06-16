@@ -21,14 +21,14 @@ for (const keyword of approvedKeywords) {
     const keywordRank = await getMyRankWithNaver(keyword.keyword);
     const oldbid = keyword.bidAmt;
     let newbid = getNewBid(keywordRank, oldbid);
-    if (keywordRank === 0)
+    if (keywordRank < 1)
         newbid = oldbid + 10;
 
     // emailing
-    if (keywordRank < 1) {
-        console.warn(`Administrator should check. Keyword is not found:: keyword-->${keyword.keyword}`);
-        continue;
-    }
+    // if (keywordRank < 1) {
+    //     console.warn(`Administrator should check. Keyword is not found:: keyword-->${keyword.keyword}`);
+    //     continue;
+    // }
     if (newbid > 7000) {
         console.warn(`Administrator should check. BidAmt has exceeded the limit:: newbid-->${newbid}`);
         continue;
