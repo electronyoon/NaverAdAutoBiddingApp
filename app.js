@@ -22,7 +22,7 @@ for (const keyword of approvedKeywords) {
     const oldbid = keyword.bidAmt;
     let newbid = getNewBid(keywordRank, oldbid);
     if (keywordRank < 1)
-        newbid = oldbid + 10;
+        newbid = getNewBid(4, oldbid);
 
     // emailing
     // if (keywordRank < 1) {
