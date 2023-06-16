@@ -17,12 +17,12 @@ import getMyRankWithNaver from './APIs/getMyRankWithNaver.js';
 import putBid from './APIs/putBid.js';
 
 for (const keyword of approvedKeywords) {
-    let keywordRank = await getMyRankWithNaver(keyword.keyword);
-    if (keywordRank === 0)
-        keywordRank = await getMyRank(keyword.keyword);
-
+    
+    const keywordRank = await getMyRankWithNaver(keyword.keyword);
     const oldbid = keyword.bidAmt;
-    const newbid = getNewBid(keywordRank, oldbid);
+    let newbid = getNewBid(keywordRank, oldbid);
+    if (keywordRank === 0)
+        newbid = oldbid + 10;
 
     // emailing
     if (keywordRank < 1) {
