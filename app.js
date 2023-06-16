@@ -17,9 +17,11 @@ import getMyRankWithNaver from './APIs/getMyRankWithNaver.js';
 import putBid from './APIs/putBid.js';
 
 for (const keyword of approvedKeywords) {
-    let keywordRank = await getMyRankWithNaver(keyword.keyword);    
+    let keywordRank = await getMyRankWithNaver(keyword.keyword);
+    console.log(`keywordRank: ${keywordRank}`);
     if (keywordRank === 0)
         keywordRank = await getMyRank(keyword.keyword);
+    console.log(`keywordRank: ${keywordRank}`);
 
     const oldbid = keyword.bidAmt;
     const newbid = getNewBid(keywordRank, oldbid);
