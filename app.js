@@ -11,7 +11,7 @@ const keywords = await getCurrentKeywords();
 const approvedKeywords = keywords.filter(obj => obj.inspectStatus === 'APPROVED')
 import getNewBid from './util/getNewBid.js';
 // import isKeywordPopular from './APIs/isKeywordPopular.js';
-import getMyRank from './APIs/getMyRank.js';
+// import getMyRank from './APIs/getMyRank.js';
 // import getMyRankWithProxy from './APIs/getMyRankWithProxy.js';
 import getMyRankWithNaver from './APIs/getMyRankWithNaver.js';
 import putBid from './APIs/putBid.js';
@@ -21,15 +21,16 @@ for (const keyword of approvedKeywords) {
     const keywordRank = await getMyRankWithNaver(keyword.keyword);
     const oldbid = keyword.bidAmt;
     let newbid = getNewBid(keywordRank, oldbid);
-    if (keywordRank < 1)
+    // if not found, upranking until appearing
+    if (keywordRank === 0)
         newbid = getNewBid(4, oldbid);
 
     // emailing
-    // if (keywordRank < 1) {
-    //     console.warn(`Administrator should check. Keyword is not found:: keyword-->${keyword.keyword}`);
-    //     continue;
-    // }
-    if (newbid > 7000) {
+    if (keywordRank === -1) {
+        console.warn(`Administrator should check. Keyword is not found:: keyword-->${keyword.keyword}`);
+        continue;
+    }
+    if (newbid > 5000) {
         console.warn(`Administrator should check. BidAmt has exceeded the limit:: newbid-->${newbid}`);
         continue;
     }
