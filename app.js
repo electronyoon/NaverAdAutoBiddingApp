@@ -6,6 +6,7 @@ if (!isAdEligible) {
 console.log(`Bidding starting from::::: ${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')}`);
 
 
+
 import getCurrentKeywords from './APIs/getCurrentKeywords.js';
 const keywords = await getCurrentKeywords();
 const approvedKeywords = keywords.filter(obj => obj.inspectStatus === 'APPROVED')
@@ -15,9 +16,9 @@ import getNewBid from './util/getNewBid.js';
 // import getMyRankWithProxy from './APIs/getMyRankWithProxy.js';
 import getMyRankWithNaver from './APIs/getMyRankWithNaver.js';
 import putBid from './APIs/putBid.js';
+import getBidLimit from './util/getBidLimit.js';
 
 for (const keyword of approvedKeywords) {
-    
     const keywordRank = await getMyRankWithNaver(keyword.keyword);
     const oldbid = keyword.bidAmt;
     let newbid = getNewBid(keywordRank, oldbid);
@@ -36,6 +37,11 @@ for (const keyword of approvedKeywords) {
     }
 
     // logging
+    const bidLimit = await getBidLimit(keyword.keyword);
+    if (bidLimit < newbid) {
+        console.log(`${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} --X ${newbid} (exceeded limit: ${bidLimit})`);
+        continue;
+    }
     if (oldbid === newbid) {
         console.log(`${keyword.keyword}, rank: ${keywordRank}, bidAmt: ${oldbid} === ${oldbid}`);
         continue;
