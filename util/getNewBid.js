@@ -6,9 +6,9 @@ export default function getNewBid(keywordRank, oldbid) {
         betting = 50;
     }
 
-    if (keywordRank > 3)
+    if (keywordRank > 2)
         return oldbid + betting;
-    if (keywordRank < 3)
+    if (keywordRank < 2)
         return Math.max(oldbid - betting, 70);
     return oldbid;
 }
