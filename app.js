@@ -31,7 +31,7 @@ for (const keyword of approvedKeywords) {
         console.warn(`Administrator should check. Keyword is not found:: keyword-->${keyword.keyword}`);
         continue;
     }
-    if (newbid > 5000) {
+    if (newbid > 3000) {
         console.warn(`Administrator should check. BidAmt has exceeded the limit:: newbid-->${newbid}`);
         continue;
     }
