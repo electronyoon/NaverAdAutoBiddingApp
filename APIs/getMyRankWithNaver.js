@@ -40,7 +40,7 @@ const getMyRankWithNaver = async (keyword) => {
             // return Math.max(pcRank, mobileRank);
             return mobileRank;
         } catch (error) {
-            console.error(`Error: 1초 뒤 한번 더 시도합니다(${trial-1}/3) ${error.response.data}`);
+            console.error(`\t↳Error: 1초 뒤 한번 더 시도합니다(${trial-1}/3) ${error.response}`);
             await new Promise(resolve => setTimeout(resolve, 1000));
             trial--;
         }
