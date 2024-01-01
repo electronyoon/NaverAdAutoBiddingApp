@@ -1,20 +1,21 @@
-# Use the official Node.js image as the base
-FROM node:18
-
-# Set the working directory inside the container
+# Stage 1: Build stage
+FROM --platform=linux/amd64 public.ecr.aws/docker/library/node:18 AS build
 WORKDIR /app
-
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
-
-# Install dependencies
+COPY . .
 RUN npm install
 
-# Copy the rest of the project files to the container
-COPY . .
+# Stage 2: Final image stage
+FROM --platform=linux/amd64 public.ecr.aws/docker/library/node:18-slim
 
-# Expose the port your Node.js application listens on (e.g., 3000)
+# Install necessary packages if required
+RUN apt-get update && apt-get install -y \
+    curl \
+    tzdata \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* && apt-get clean
+
+WORKDIR /app
+COPY --from=build /app .
+ADD . .
 EXPOSE 3000
-
-# Start your Node.js application
-CMD ["npm", "start"]
+CMD ["node", "app.js"]
