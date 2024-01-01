@@ -1,11 +1,11 @@
 # Stage 1: Build stage
-FROM public.ecr.aws/docker/library/node:18 AS build
+FROM --platform=linux/amd64 public.ecr.aws/docker/library/node:18 AS build
 WORKDIR /app
 ADD package.json .
 RUN npm install
 
 # Stage 2: Final image stage
-FROM public.ecr.aws/docker/library/node:18-slim
+FROM --platform=linux/amd64 public.ecr.aws/docker/library/node:18-slim
 
 # Install necessary packages if required
 RUN apt-get update && apt-get install -y \
