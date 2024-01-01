@@ -9,7 +9,7 @@ env:
   ECR_REPOSITORY: naverbidding
   ECS_SERVICE: NaverBiddingService
   ECS_CLUSTER: NaverBiddingCluster
-  ECS_TASK_DEFINITION: NaverBiddingTask
+  ECS_TASK_DEFINITION: task-definition.json
   CONTAINER_NAME: NaverBiddingContainer
 
 permissions:
