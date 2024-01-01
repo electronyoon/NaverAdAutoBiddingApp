@@ -7,10 +7,10 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: naverbidding
-  ECS_SERVICE: NaverBiddingService2
-  ECS_CLUSTER: NaverBiddingCluster2
+  ECS_SERVICE: NaverBiddingService3
+  ECS_CLUSTER: NaverBiddingCluster3
   ECS_TASK_DEFINITION: task-definition.json
-  CONTAINER_NAME: NaverBiddingContainer2
+  CONTAINER_NAME: NaverBiddingContainer3
 
 permissions:
   contents: read
@@ -51,7 +51,7 @@ jobs:
 
     - name: Download task definition
       run: |
-        aws ecs describe-task-definition --task-definition NaverBiddingTask2 --query taskDefinition > task-definition.json
+        aws ecs describe-task-definition --task-definition NaverBiddingTask3 --query taskDefinition > task-definition.json
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
