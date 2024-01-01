@@ -7,7 +7,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: naverbidding
-  ECS_SERVICE: NaverBiddingService2
+  ECS_SERVICE: NaverBiddingService
   ECS_CLUSTER: NaverBiddingCluster
   ECS_TASK_DEFINITION: task-definition.json
   CONTAINER_NAME: NaverBiddingContainer
