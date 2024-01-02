@@ -4,15 +4,14 @@ Node.js로 만들어진 네이버 검색 키워드 자동 경매 어플리케이
 sequenceDiagram
 	participant app
 	participant naver_api
-	participant naver_auth
 	participant web
 	
 	autonumber
-	app->>+naver_auth: getToken()
-	naver_auth-->>-app: token
+	app->>+naver_api: getKeywords()
+	naver_api-->>-app: keywords
 
 	rect rgb(10, 50, 10)
-	loop per Keywords
+	loop per keywords
 	app->>+naver_api: getBid()
 	naver_api-->>-app: bid
 	app->>+web: getRank()
